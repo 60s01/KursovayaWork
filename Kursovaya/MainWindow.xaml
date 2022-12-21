@@ -1,0 +1,28 @@
+﻿<Window x:Class="Kursovaya.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Kursovaya"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="1000" Icon="Image/unnamed1.jpg">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Background="Black">
+            <Image Source="Image/unnamed1.jpg" Margin="15 0 0 0" Height="75" />
+            <Button Content="Сотрудники" x:Name="CreateStaff" Height="35" Width="140" Margin="15 0 0 0"  Click="CreateStaff_Click" Visibility="Hidden"/>
+            <Button Content="Заказы" x:Name="UpdateOrder" Height="35" Width="140" Margin="15 0 0 0" Click="Order_Click" Visibility="Hidden"/>
+            <TextBlock Height="25" Margin="15 0 0 0" Width="225" x:Name="Role" Foreground="White" />
+            <TextBox Height="25" Margin="15 0 0 0" Width="90" x:Name="Password"/>
+            <Button Content="Войти" x:Name="SignIn" Height="25" Width="75" Margin="15 0 0 0" Click="SignIn_Click"/>
+        </StackPanel>
+        <Frame Grid.Row="1" x:Name="MainFrame" NavigationUIVisibility="Hidden" />
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Background="Black" >
+            <Button Content="Выйти" x:Name="Exit" Height="35" Width="140" Margin="15 0 0 0"  Click="Exit_Click" Visibility="Hidden"/>
+        </StackPanel>
+    </Grid>
+</Window>

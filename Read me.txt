@@ -1,0 +1,4 @@
+ФИО :                         	Сажин Иван Евгеньевич
+Тема КР:                      	Информационная система для работы ресторана
+Ссылка на облачное хранилище: 	https://drive.google.com/drive/folders/164snWZW6I8C0_tX5__goli4-NSGhlpVs?usp=share_link
+Ссылка на GitHub:             	asdasd

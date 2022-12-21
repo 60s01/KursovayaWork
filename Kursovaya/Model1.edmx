@@ -1,0 +1,432 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище KursovayaModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Dishs">
+          <Key>
+            <PropertyRef Name="IdDish" />
+          </Key>
+          <Property Name="IdDish" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="25" />
+          <Property Name="Price" Type="money" />
+          <Property Name="IdGroup" Type="int" />
+        </EntityType>
+        <EntityType Name="Groups">
+          <Key>
+            <PropertyRef Name="IdGroup" />
+          </Key>
+          <Property Name="IdGroup" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="InfoOrders">
+          <Key>
+            <PropertyRef Name="IdInfoOrder" />
+          </Key>
+          <Property Name="IdOrder" Type="int" Nullable="false" />
+          <Property Name="IdDish" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="Amount" Type="money" />
+          <Property Name="IdInfoOrder" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="IdOrder" />
+          </Key>
+          <Property Name="IdOrder" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdStaff" Type="int" />
+          <Property Name="IdTable" Type="int" />
+          <Property Name="Price" Type="money" />
+          <Property Name="Status" Type="nvarchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="Staff">
+          <Key>
+            <PropertyRef Name="IdStaff" />
+          </Key>
+          <Property Name="IdStaff" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Grade" Type="nvarchar" MaxLength="15" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="15" />
+          <Property Name="MiddleName" Type="nvarchar" MaxLength="15" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="15" />
+          <Property Name="Password" Type="nvarchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Tables">
+          <Key>
+            <PropertyRef Name="IdTable" />
+          </Key>
+          <Property Name="IdTable" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdOrder" Type="int" />
+          <Property Name="Status" Type="nvarchar" MaxLength="25" />
+        </EntityType>
+        <Association Name="FK_Dishs_Groups">
+          <End Role="Groups" Type="Self.Groups" Multiplicity="0..1" />
+          <End Role="Dishs" Type="Self.Dishs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="IdGroup" />
+            </Principal>
+            <Dependent Role="Dishs">
+              <PropertyRef Name="IdGroup" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InfoOrders_Dishs">
+          <End Role="Dishs" Type="Self.Dishs" Multiplicity="1" />
+          <End Role="InfoOrders" Type="Self.InfoOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dishs">
+              <PropertyRef Name="IdDish" />
+            </Principal>
+            <Dependent Role="InfoOrders">
+              <PropertyRef Name="IdDish" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InfoOrders_Orders">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="1" />
+          <End Role="InfoOrders" Type="Self.InfoOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="IdOrder" />
+            </Principal>
+            <Dependent Role="InfoOrders">
+              <PropertyRef Name="IdOrder" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Staff">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="IdStaff" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="IdStaff" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Tables">
+          <End Role="Tables" Type="Self.Tables" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tables">
+              <PropertyRef Name="IdTable" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="IdTable" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище KursovayaModelContainer">
+          <EntitySet Name="Dishs" EntityType="Self.Dishs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Groups" EntityType="Self.Groups" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InfoOrders" EntityType="Self.InfoOrders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tables" EntityType="Self.Tables" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Dishs_Groups" Association="Self.FK_Dishs_Groups">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="Dishs" EntitySet="Dishs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InfoOrders_Dishs" Association="Self.FK_InfoOrders_Dishs">
+            <End Role="Dishs" EntitySet="Dishs" />
+            <End Role="InfoOrders" EntitySet="InfoOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InfoOrders_Orders" Association="Self.FK_InfoOrders_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="InfoOrders" EntitySet="InfoOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Staff" Association="Self.FK_Orders_Staff">
+            <End Role="Staff" EntitySet="Staff" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Tables" Association="Self.FK_Orders_Tables">
+            <End Role="Tables" EntitySet="Tables" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="KursovayaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Dish">
+          <Key>
+            <PropertyRef Name="IdDish" />
+          </Key>
+          <Property Name="IdDish" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="IdGroup" Type="Int32" />
+          <NavigationProperty Name="Group" Relationship="Self.FK_Dishs_Groups" FromRole="Dishs" ToRole="Groups" />
+          <NavigationProperty Name="InfoOrders" Relationship="Self.FK_InfoOrders_Dishs" FromRole="Dishs" ToRole="InfoOrders" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="IdGroup" />
+          </Key>
+          <Property Name="IdGroup" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Dishs" Relationship="Self.FK_Dishs_Groups" FromRole="Groups" ToRole="Dishs" />
+        </EntityType>
+        <EntityType Name="InfoOrder">
+          <Key>
+            <PropertyRef Name="IdInfoOrder" />
+          </Key>
+          <Property Name="IdOrder" Type="Int32" Nullable="false" />
+          <Property Name="IdDish" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="IdInfoOrder" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Dish" Relationship="Self.FK_InfoOrders_Dishs" FromRole="InfoOrders" ToRole="Dishs" />
+          <NavigationProperty Name="Order" Relationship="Self.FK_InfoOrders_Orders" FromRole="InfoOrders" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="IdOrder" />
+          </Key>
+          <Property Name="IdOrder" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdStaff" Type="Int32" />
+          <Property Name="IdTable" Type="Int32" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Status" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="InfoOrders" Relationship="Self.FK_InfoOrders_Orders" FromRole="Orders" ToRole="InfoOrders" />
+          <NavigationProperty Name="Staff" Relationship="Self.FK_Orders_Staff" FromRole="Orders" ToRole="Staff" />
+          <NavigationProperty Name="Table" Relationship="Self.FK_Orders_Tables" FromRole="Orders" ToRole="Tables" />
+        </EntityType>
+        <EntityType Name="Staff">
+          <Key>
+            <PropertyRef Name="IdStaff" />
+          </Key>
+          <Property Name="IdStaff" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Grade" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="MiddleName" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Staff" FromRole="Staff" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Table">
+          <Key>
+            <PropertyRef Name="IdTable" />
+          </Key>
+          <Property Name="IdTable" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdOrder" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Tables" FromRole="Tables" ToRole="Orders" />
+        </EntityType>
+        <Association Name="FK_Dishs_Groups">
+          <End Role="Groups" Type="Self.Group" Multiplicity="0..1" />
+          <End Role="Dishs" Type="Self.Dish" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="IdGroup" />
+            </Principal>
+            <Dependent Role="Dishs">
+              <PropertyRef Name="IdGroup" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InfoOrders_Dishs">
+          <End Role="Dishs" Type="Self.Dish" Multiplicity="1" />
+          <End Role="InfoOrders" Type="Self.InfoOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dishs">
+              <PropertyRef Name="IdDish" />
+            </Principal>
+            <Dependent Role="InfoOrders">
+              <PropertyRef Name="IdDish" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InfoOrders_Orders">
+          <End Role="Orders" Type="Self.Order" Multiplicity="1" />
+          <End Role="InfoOrders" Type="Self.InfoOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="IdOrder" />
+            </Principal>
+            <Dependent Role="InfoOrders">
+              <PropertyRef Name="IdOrder" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Staff">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="IdStaff" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="IdStaff" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Tables">
+          <End Role="Tables" Type="Self.Table" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tables">
+              <PropertyRef Name="IdTable" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="IdTable" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="KursovayaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Dishs" EntityType="Self.Dish" />
+          <EntitySet Name="Groups" EntityType="Self.Group" />
+          <EntitySet Name="InfoOrders" EntityType="Self.InfoOrder" />
+          <EntitySet Name="Orders" EntityType="Self.Order" />
+          <EntitySet Name="Staffs" EntityType="Self.Staff" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Tables" EntityType="Self.Table" />
+          <AssociationSet Name="FK_Dishs_Groups" Association="Self.FK_Dishs_Groups">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="Dishs" EntitySet="Dishs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InfoOrders_Dishs" Association="Self.FK_InfoOrders_Dishs">
+            <End Role="Dishs" EntitySet="Dishs" />
+            <End Role="InfoOrders" EntitySet="InfoOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InfoOrders_Orders" Association="Self.FK_InfoOrders_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="InfoOrders" EntitySet="InfoOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Staff" Association="Self.FK_Orders_Staff">
+            <End Role="Staff" EntitySet="Staffs" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Tables" Association="Self.FK_Orders_Tables">
+            <End Role="Tables" EntitySet="Tables" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище KursovayaModelContainer" CdmEntityContainer="KursovayaEntities">
+          <EntitySetMapping Name="Dishs">
+            <EntityTypeMapping TypeName="KursovayaModel.Dish">
+              <MappingFragment StoreEntitySet="Dishs">
+                <ScalarProperty Name="IdDish" ColumnName="IdDish" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="IdGroup" ColumnName="IdGroup" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Groups">
+            <EntityTypeMapping TypeName="KursovayaModel.Group">
+              <MappingFragment StoreEntitySet="Groups">
+                <ScalarProperty Name="IdGroup" ColumnName="IdGroup" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InfoOrders">
+            <EntityTypeMapping TypeName="KursovayaModel.InfoOrder">
+              <MappingFragment StoreEntitySet="InfoOrders">
+                <ScalarProperty Name="IdOrder" ColumnName="IdOrder" />
+                <ScalarProperty Name="IdDish" ColumnName="IdDish" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="IdInfoOrder" ColumnName="IdInfoOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="KursovayaModel.Order">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="IdOrder" ColumnName="IdOrder" />
+                <ScalarProperty Name="IdStaff" ColumnName="IdStaff" />
+                <ScalarProperty Name="IdTable" ColumnName="IdTable" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Staffs">
+            <EntityTypeMapping TypeName="KursovayaModel.Staff">
+              <MappingFragment StoreEntitySet="Staff">
+                <ScalarProperty Name="IdStaff" ColumnName="IdStaff" />
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="KursovayaModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tables">
+            <EntityTypeMapping TypeName="KursovayaModel.Table">
+              <MappingFragment StoreEntitySet="Tables">
+                <ScalarProperty Name="IdTable" ColumnName="IdTable" />
+                <ScalarProperty Name="IdOrder" ColumnName="IdOrder" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

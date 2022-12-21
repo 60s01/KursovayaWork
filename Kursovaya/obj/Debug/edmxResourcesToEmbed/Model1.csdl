@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="KursovayaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Dish">
+    <Key>
+      <PropertyRef Name="IdDish" />
+    </Key>
+    <Property Name="IdDish" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+    <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="IdGroup" Type="Int32" />
+    <NavigationProperty Name="Group" Relationship="Self.FK_Dishs_Groups" FromRole="Dishs" ToRole="Groups" />
+    <NavigationProperty Name="InfoOrders" Relationship="Self.FK_InfoOrders_Dishs" FromRole="Dishs" ToRole="InfoOrders" />
+  </EntityType>
+  <EntityType Name="Group">
+    <Key>
+      <PropertyRef Name="IdGroup" />
+    </Key>
+    <Property Name="IdGroup" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Dishs" Relationship="Self.FK_Dishs_Groups" FromRole="Groups" ToRole="Dishs" />
+  </EntityType>
+  <EntityType Name="InfoOrder">
+    <Key>
+      <PropertyRef Name="IdInfoOrder" />
+    </Key>
+    <Property Name="IdOrder" Type="Int32" Nullable="false" />
+    <Property Name="IdDish" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" />
+    <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="IdInfoOrder" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Dish" Relationship="Self.FK_InfoOrders_Dishs" FromRole="InfoOrders" ToRole="Dishs" />
+    <NavigationProperty Name="Order" Relationship="Self.FK_InfoOrders_Orders" FromRole="InfoOrders" ToRole="Orders" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="IdOrder" />
+    </Key>
+    <Property Name="IdOrder" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdStaff" Type="Int32" />
+    <Property Name="IdTable" Type="Int32" />
+    <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="Status" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="InfoOrders" Relationship="Self.FK_InfoOrders_Orders" FromRole="Orders" ToRole="InfoOrders" />
+    <NavigationProperty Name="Staff" Relationship="Self.FK_Orders_Staff" FromRole="Orders" ToRole="Staff" />
+    <NavigationProperty Name="Table" Relationship="Self.FK_Orders_Tables" FromRole="Orders" ToRole="Tables" />
+  </EntityType>
+  <EntityType Name="Staff">
+    <Key>
+      <PropertyRef Name="IdStaff" />
+    </Key>
+    <Property Name="IdStaff" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Grade" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="FirstName" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="MiddleName" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Staff" FromRole="Staff" ToRole="Orders" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Table">
+    <Key>
+      <PropertyRef Name="IdTable" />
+    </Key>
+    <Property Name="IdTable" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdOrder" Type="Int32" />
+    <Property Name="Status" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Tables" FromRole="Tables" ToRole="Orders" />
+  </EntityType>
+  <Association Name="FK_Dishs_Groups">
+    <End Role="Groups" Type="Self.Group" Multiplicity="0..1" />
+    <End Role="Dishs" Type="Self.Dish" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Groups">
+        <PropertyRef Name="IdGroup" />
+      </Principal>
+      <Dependent Role="Dishs">
+        <PropertyRef Name="IdGroup" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_InfoOrders_Dishs">
+    <End Role="Dishs" Type="Self.Dish" Multiplicity="1" />
+    <End Role="InfoOrders" Type="Self.InfoOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dishs">
+        <PropertyRef Name="IdDish" />
+      </Principal>
+      <Dependent Role="InfoOrders">
+        <PropertyRef Name="IdDish" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_InfoOrders_Orders">
+    <End Role="Orders" Type="Self.Order" Multiplicity="1" />
+    <End Role="InfoOrders" Type="Self.InfoOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Orders">
+        <PropertyRef Name="IdOrder" />
+      </Principal>
+      <Dependent Role="InfoOrders">
+        <PropertyRef Name="IdOrder" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Orders_Staff">
+    <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+    <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Staff">
+        <PropertyRef Name="IdStaff" />
+      </Principal>
+      <Dependent Role="Orders">
+        <PropertyRef Name="IdStaff" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Orders_Tables">
+    <End Role="Tables" Type="Self.Table" Multiplicity="0..1" />
+    <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tables">
+        <PropertyRef Name="IdTable" />
+      </Principal>
+      <Dependent Role="Orders">
+        <PropertyRef Name="IdTable" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="KursovayaEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Dishs" EntityType="Self.Dish" />
+    <EntitySet Name="Groups" EntityType="Self.Group" />
+    <EntitySet Name="InfoOrders" EntityType="Self.InfoOrder" />
+    <EntitySet Name="Orders" EntityType="Self.Order" />
+    <EntitySet Name="Staffs" EntityType="Self.Staff" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="Tables" EntityType="Self.Table" />
+    <AssociationSet Name="FK_Dishs_Groups" Association="Self.FK_Dishs_Groups">
+      <End Role="Groups" EntitySet="Groups" />
+      <End Role="Dishs" EntitySet="Dishs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_InfoOrders_Dishs" Association="Self.FK_InfoOrders_Dishs">
+      <End Role="Dishs" EntitySet="Dishs" />
+      <End Role="InfoOrders" EntitySet="InfoOrders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_InfoOrders_Orders" Association="Self.FK_InfoOrders_Orders">
+      <End Role="Orders" EntitySet="Orders" />
+      <End Role="InfoOrders" EntitySet="InfoOrders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Orders_Staff" Association="Self.FK_Orders_Staff">
+      <End Role="Staff" EntitySet="Staffs" />
+      <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Orders_Tables" Association="Self.FK_Orders_Tables">
+      <End Role="Tables" EntitySet="Tables" />
+      <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

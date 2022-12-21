@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0011013bdb724e519d262a75ca563b3b" Name="Diagram1">
+        <EntityTypeShape EntityType="KursovayaModel.Dish" Width="1.5" PointX="3" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="KursovayaModel.Group" Width="1.5" PointX="0.75" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="KursovayaModel.InfoOrder" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="KursovayaModel.Order" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="KursovayaModel.Staff" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="KursovayaModel.sysdiagram" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KursovayaModel.Table" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <AssociationConnector Association="KursovayaModel.FK_Dishs_Groups" ManuallyRouted="false" />
+        <AssociationConnector Association="KursovayaModel.FK_InfoOrders_Dishs" ManuallyRouted="false" />
+        <AssociationConnector Association="KursovayaModel.FK_InfoOrders_Orders" ManuallyRouted="false" />
+        <AssociationConnector Association="KursovayaModel.FK_Orders_Staff" ManuallyRouted="false" />
+        <AssociationConnector Association="KursovayaModel.FK_Orders_Tables" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
